@@ -9,5 +9,5 @@ Loss-Discriminator = -lg[D(true_data)] - lg[1 - D(G(false_data))]
 Loss-Generator = lg[1 - D(G(false_data))]
 
 2. 官方公式的理解：
-
-
+# 固定G，找到一个D使得 V(G, D)最大，等价于 D(真数据)增大，D(假数据)减小；此时表示真数据和假数据之间的差异很大，才能被判别器识别；然后找到一个G，使得这个差异最小。
+GAN = arg minG maxD V(G, D) = E x~data {lg[D(x)]} + E x~G {lg[1-D(x)]}
