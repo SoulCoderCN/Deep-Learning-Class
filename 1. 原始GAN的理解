@@ -1,8 +1,12 @@
 1. 代码定义
 # 利用 梯度下降使损失loss降低 的原理, +x即为减小x, -x即为增大x; 判别器D()最后一层使用sigmoid，所以D()的输出表示概率.
+
 # 判别器loss = 增大D(true_data) + 减小D(G(false_data))
+# 对于判别器, 判别器需要识别真数据为真，假数据为假。增大D(true_data)，既使得D(true_data)=1，预测真数据的概率为1; 
+# 减小D(G(false_data))，既使得D(true_data)=0， 预测假数据为假的概率为0.
 Loss-Discriminator = -lg[D(true_data)] - lg[1 - D(G(false_data))]
+# 生成器loss = 增大D(G(false_data))
 # 
 Loss-Generator = lg[1 - D(G(false_data))]
-
+# 
 
