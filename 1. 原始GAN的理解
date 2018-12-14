@@ -1,0 +1,3 @@
+1. 代码定义
+Loss-Discriminator = -lg[D(true_data)] - lg[1 - D(G(false_data))]
+Loss-Generator = lg[1 - D(G(false_data))]
