@@ -1,1 +1,17 @@
+代码：
 
+  xs = tf.placeholder(tf.float32, [None, 224, 224, 3], name='xs')
+  feature = tf.conv(input)
+  ...
+  ys = tf.placeholder(tf.int32, [None], name='ys')
+  
+  # logit.shape = (batch_size, 5)
+  logit = slim.fully_connected(feature, 5, activation_fn=None, scope='logit')
+  # ys自动进行OneHot编码, 编码格式由logit的维度决定
+  cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=ys, logits=logit)
+  ...
+  
+  # 如果 logit 形状为(batch_size, 5), 则label的输入为以下五种可能：0/1/2/3/4, 注意必须是int型
+  label = 4
+  label = np.reshape(label, (-1))
+  _, loss = sess.run([train_step, cross_entropy], feed_dict={xs: img, yl: label, lr: rate})
