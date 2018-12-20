@@ -1,0 +1,43 @@
+import numpy as np
+import os
+import cv2
+np.set_printoptions(threshold=np.inf)
+
+
+# 导入训练数据和标签路径
+DATA_DIR = "H:\\data\\JSOD\\JSOD\\aug_1\\"
+# 获取路径下所有jpg图片路径
+DATA_NAME = [i for i in os.listdir(DATA_DIR) if '.jpg' in i]
+
+file_handle = open('t1list.txt', mode='w')
+
+for j, name in enumerate(DATA_NAME):
+
+    file_handle.write(name[:-4]+",1")
+    file_handle.write('\n')
+
+
+# 导入训练数据和标签路径
+DATA_DIR = "H:/data/JSOD/BackGround/train/"
+# 获取路径下所有jpg图片路径
+DATA_NAME = [i for i in os.listdir(DATA_DIR) if '.jpg' in i]
+
+for j, name in enumerate(DATA_NAME):
+
+    img = cv2.imread(DATA_DIR + name)
+    # img = cv2.resize(img, (224, 224))
+    cv2.imwrite("H:/data/JSOD/JSOD/aug_0/" + name, img)
+
+    gt = cv2.imread(DATA_DIR + name[:-4] + ".png", cv2.IMREAD_GRAYSCALE)
+    # gt = cv2.resize(gt, (224, 224))
+    # gt = gt / 255
+    # gt[gt > 0.5] = 1
+    # gt[gt <= 0.5] = 0
+    cv2.imwrite("H:/data/JSOD/JSOD/aug_0/" + name[:-4] + ".png", gt)
+
+    img_flip = cv2.flip(img, 1)
+    cv2.imwrite("H:/data/JSOD/JSOD/aug_0/" + name[:-4] + "_flip.jpg", img_flip)
+
+    gt_flip = cv2.flip(gt, 1)
+    cv2.imwrite("H:/data/JSOD/JSOD/aug_0/" + name[:-4] + "_flip.png", gt_flip)
+    print(j)
