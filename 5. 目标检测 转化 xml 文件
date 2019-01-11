@@ -1,0 +1,113 @@
+from xml.dom.minidom import Document
+import pandas as pd
+import cv2
+
+def makexml(txt_filename, boxes):
+    doc = Document()
+    annotation = doc.createElement("annotation")
+    doc.appendChild(annotation)
+
+    folder = doc.createElement("folder")
+    foldertext = doc.createTextNode("VOC2012")
+    folder.appendChild(foldertext)
+    annotation.appendChild(folder)
+
+    filename = doc.createElement("filename")
+    filenametext = doc.createTextNode(txt_filename)
+    filename.appendChild(filenametext)
+    annotation.appendChild(filename)
+
+    pathname = doc.createElement("path")
+    pathtext = doc.createTextNode("D:/VOCdevkit/VOC2012/JPEGImages/" + str(txt_filename))
+    pathname.appendChild(pathtext)
+    annotation.appendChild(pathname)
+
+    size = doc.createElement("size")
+    img = cv2.imread("./JPEGImages/"+txt_filename)
+    image_height = img.shape[0]
+    image_width = img.shape[1]
+    image_depth = img.shape[2]
+
+    width = doc.createElement("width")
+    size.appendChild(width)
+    widthtext = doc.createTextNode(str(image_width))
+    width.appendChild(widthtext)
+    height = doc.createElement("height")
+    size.appendChild(height)
+    heighttext = doc.createTextNode(str(image_height))
+    height.appendChild(heighttext)
+    depth = doc.createElement("depth")
+    size.appendChild(depth)
+    depthtext = doc.createTextNode(str(image_depth))
+    depth.appendChild(depthtext)
+    annotation.appendChild(size)
+
+    segmented = doc.createElement("segmented")
+    annotation.appendChild(segmented)
+    segmentedtext = doc.createTextNode(str(0))
+    segmented.appendChild(segmentedtext)
+
+    for txtArray in boxes:
+
+        object = doc.createElement("object")
+        annotation.appendChild(object)
+
+        name = doc.createElement("name")
+        object.appendChild(name)
+        nametext = doc.createTextNode("Rebar")
+        name.appendChild(nametext)
+
+        pose = doc.createElement("pose")
+        object.appendChild(pose)
+        posetext = doc.createTextNode("Unspecified")
+        pose.appendChild(posetext)
+
+        truncated = doc.createElement("truncated")
+        object.appendChild(truncated)
+        truncatedtext = doc.createTextNode("0")
+        truncated.appendChild(truncatedtext)
+
+        difficult = doc.createElement("difficult")
+        object.appendChild(difficult)
+        difficulttext = doc.createTextNode("0")
+        difficult.appendChild(difficulttext)
+
+        bndbox = doc.createElement("bndbox")
+        object.appendChild(bndbox)
+
+        xmin = doc.createElement("xmin")
+        bndbox.appendChild(xmin)
+        xmintext = doc.createTextNode(txtArray[0])
+        xmin.appendChild(xmintext)
+        ymin = doc.createElement("ymin")
+        bndbox.appendChild(ymin)
+        ymintext = doc.createTextNode(txtArray[1])
+        ymin.appendChild(ymintext)
+        xmax = doc.createElement("xmax")
+        bndbox.appendChild(xmax)
+        xmaxtext = doc.createTextNode(txtArray[2])
+        xmax.appendChild(xmaxtext)
+        ymax = doc.createElement("ymax")
+        bndbox.appendChild(ymax)
+        ymaxtext = doc.createTextNode(txtArray[3])
+        ymax.appendChild(ymaxtext)
+
+    f = open("./Annotations/" + txt_filename[:-4] + ".xml", 'w')
+    doc.writexml(f, newl='\n', addindent='\t')
+    f.close()
+
+
+csvFile = pd.read_csv("train_labels.csv", sep=',')
+groupsFile = csvFile.groupby(csvFile["ID"])
+
+for group in groupsFile:
+
+    img_name = group[0]
+    boxes = []
+    for i in group[1]["Detection"]:
+        box = i.strip().split(" ")
+        if len(box) != 4:
+            print("TxtError")
+        boxes.append(box)
+
+    makexml(img_name, boxes)
