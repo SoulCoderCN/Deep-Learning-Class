@@ -1,0 +1,41 @@
+import numpy as np
+import os
+import cv2
+import pandas as pd
+np.set_printoptions(threshold=np.inf)
+
+# # 导入训练数据和标签路径
+# DATA_DIR = "F:/SOSB/Background-train/"
+# # 获取路径下所有jpg图片路径
+# DATA_NAME = [i for i in os.listdir(DATA_DIR) if '.jpg' in i]
+#
+# file_handle = open('NonsalTrainVal-label.txt', mode='w')
+#
+# for j, name in enumerate(DATA_NAME):
+#
+#     file_handle.write(name[:-4]+",0")
+#     file_handle.write('\n')
+
+
+# # 导入训练数据和标签路径
+# DATA_DIR = "F:/SOSB/Background-test/"
+# # 获取路径下所有jpg图片路径
+# DATA_NAME = [i for i in os.listdir(DATA_DIR) if '.jpg' in i]
+#
+# file_handle = open('NonsalTest-label.txt', mode='w')
+#
+# for j, name in enumerate(DATA_NAME):
+#
+#     file_handle.write(name[:-4]+",0")
+#     file_handle.write('\n')
+
+
+# train_label = pd.read_csv("F:/SOSB/Label_list/train.csv", header=None)
+# file_handle = open('train_aug.txt', mode='w')
+#
+# for j, row in enumerate(train_label.iterrows()):
+#
+#     file_handle.write(str(row[1][0])+","+str(row[1][1]))
+#     file_handle.write('\n')
+#     file_handle.write(str(row[1][0])+"_flip,"+str(row[1][1]))
+#     file_handle.write('\n')
