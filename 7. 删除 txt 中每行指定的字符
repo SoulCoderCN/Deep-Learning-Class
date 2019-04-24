@@ -1,0 +1,23 @@
+需要被修改的 txt 文件所在文件夹 old_txt_path
+修改后的 txt 文件所在文件夹 new_txt_path
+txt 中每一行字符串，删除 从右向左第一次出现‘=’元素位置右边的所有元素
+例如 cv=2.1.2py=3.2.2
+修改为 cv=2.1.2py
+
+
+# -*-coding:utf-8-*-
+import os
+
+old_txt_path = '/root/桌面/old_list/'
+new_txt_path = '/root/桌面/new_list/'
+
+for j, old_txt in enumerate([i for i in os.listdir(old_txt_path) if '.txt' in i]):
+    old_file = open(old_txt_path + old_txt)
+    new_file = open(new_txt_path + old_txt, mode='w')
+    all_lines = old_file.readlines()
+    for line in all_lines:
+        if line.rfind('=') > 0:
+            # print(line[0:line.rfind('=')])
+            new_file.write(str(line[0:line.rfind('=')]))
+            new_file.write('\n')
+    old_file.close()
