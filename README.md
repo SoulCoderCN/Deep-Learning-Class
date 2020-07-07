@@ -1,2 +1,1 @@
-# Deep-Learning-Class
-Deep Learning Class
+# Mr.Xiang's study notes
